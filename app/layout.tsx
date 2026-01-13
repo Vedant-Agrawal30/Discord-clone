@@ -1,3 +1,48 @@
+// import type { Metadata } from "next";
+// import { Open_Sans } from "next/font/google";
+// import "./globals.css";
+// import { ClerkProvider } from "@clerk/nextjs";
+// import { ThemeProvider } from "@/components/providers/theme-provider";
+// import { cn } from "@/lib/utils";
+
+// const openSans = Open_Sans({
+//   subsets: ["latin"],
+//   display: "swap",
+// });
+
+// export const metadata: Metadata = {
+//   title: "Team chat Application",
+//   description: "My Next.js App with Open Sans",
+// };
+
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <html lang="en" suppressHydrationWarning>
+//       <body
+//         className={cn(
+//           openSans.className,
+//           "bg-white dark:bg-[#313338]"
+//         )}
+//       >
+//         <ClerkProvider>
+//           <ThemeProvider
+//             attribute="class"
+//             defaultTheme="dark"
+//             enableSystem={false}
+//             storageKey="discord-theme"
+//           >
+//             {children}
+//           </ThemeProvider>
+//         </ClerkProvider>
+//       </body>
+//     </html>
+//   );
+// }
+
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
@@ -17,18 +62,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          openSans.className,
-          "bg-white dark:bg-[#313338]"
-        )}
-      >
-        <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            openSans.className,
+            "bg-white dark:bg-[#313338]"
+          )}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -37,8 +82,8 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
