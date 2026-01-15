@@ -10,6 +10,8 @@ import {
       DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, LogOut, PlusCircle, Settings, Trash2, UserPlus, Users } from "lucide-react";
+import { useModal } from "@/hooks/use-modal-store";
+
 interface ServerHeaderProps {
     server: ServerWithMembersWithProfiles;
     role?: MemberRole;
@@ -19,7 +21,7 @@ export const ServerHeader = ({
     server, role
 }: ServerHeaderProps) => {
 
-    // const { onOpen } = useModal();
+    const { onOpen } = useModal();
     // const [isOpen, setIsOpen] = useState(false);
 
     const isAdmin = role === MemberRole.ADMIN;
@@ -49,8 +51,10 @@ export const ServerHeader = ({
 <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-2">
 
 {isModerator && (
-    <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
-        Invite kar laude
+    <DropdownMenuItem onSelect={() => onOpen("invite", { server })}
+
+ className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
+        Invite People
         <UserPlus className="h-4 w-4 ml-auto" />
     </DropdownMenuItem >
 )}

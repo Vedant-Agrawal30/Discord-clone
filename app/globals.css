@@ -3,7 +3,7 @@
 
 html,
 body,
-:root{
+:root {
   height: 100%;
 }
 
@@ -125,6 +125,7 @@ body,
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

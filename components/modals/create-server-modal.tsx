@@ -160,12 +160,12 @@ const formSchema = z.object({
 
 export const CreateServerModal = () => {
 
-  const {isOpen, onClose, type} = useModal();
+  const { isOpen, onClose, type } = useModal();
 
 
   const router = useRouter();
 
-    const isModalOpen = isOpen && type === "createServer"
+  const isModalOpen = isOpen && type === "createServer"
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -179,14 +179,14 @@ export const CreateServerModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-     await axios.post("/api/servers",values);
-     form.reset();
-     router.refresh();
-     onClose();
+      await axios.post("/api/servers", values);
+      form.reset();
+      router.refresh();
+      onClose();
 
     } catch (error) {
       console.log(error);
-      
+
     }
   };
 
@@ -196,7 +196,7 @@ export const CreateServerModal = () => {
   }
 
   return (
-    <Dialog open = {isModalOpen} onOpenChange={handleClose}>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
