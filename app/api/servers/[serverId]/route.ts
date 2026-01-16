@@ -59,3 +59,38 @@ export async function PATCH(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+
+export async function DELETE(
+  req: Request,
+  // Next.js 16 me params Promise hota hai
+  { params }: { params: Promise<{ serverId: string }> }
+) {
+  try {
+    // Current logged-in user profile nikal rahe hain
+    const profile = await currentProfile();
+
+    // Agar user logged in nahi hai
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    // 🔥 IMPORTANT: params ko await karna zaroori hai
+    const { serverId } = await params;
+
+    // Server update kar rahe hain
+    const server = await db.server.delete({
+      where: {
+        id: serverId,              // Server ID
+        profileId: profile.id,    // Sirf owner hi update kar sakta hai
+      },
+    });
+
+    // Updated server ko response me bhej rahe hain
+    return NextResponse.json(server);
+
+  } catch (error) {
+    console.log("[SERVER_ID_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
