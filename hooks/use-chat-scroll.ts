@@ -47,7 +47,7 @@ export const useChatScroll = ({
       setInitialized(true);
       return;
     }
-
+    console.log("Distance from bottom:", distanceFromBottom);
     // user is near bottom → auto scroll
     if (distanceFromBottom < 120) {
       bottom.scrollIntoView({ behavior: "smooth" });
