@@ -37,23 +37,23 @@ const formSchema = z.object({
 
 export const MessageFileModal = () => {
 
-  const {isOpen,onClose,type,data}  = useModal()
+  const { isOpen, onClose, type, data } = useModal()
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "messageFile"
-  const {apiUrl,query} = data;
+  const { apiUrl, query } = data;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-    fileUrl: "",
+      fileUrl: "",
     },
   });
 
-  const handleClose = ()=> {
+  const handleClose = () => {
 
     form.reset();
-    handleClose();
+    onClose();
   }
 
   const isLoading = form.formState.isSubmitting;
@@ -61,7 +61,7 @@ export const MessageFileModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url:apiUrl || "",
+        url: apiUrl || "",
         query
       })
       await axios.post(url, {
@@ -70,7 +70,7 @@ export const MessageFileModal = () => {
       });
       form.reset();
       router.refresh();
-onClose();
+      onClose();
     } catch (error) {
       console.log(error);
 
@@ -78,14 +78,14 @@ onClose();
   };
 
   return (
-    <Dialog open = {isModalOpen} onOpenChange={handleClose}>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-Add an attachment
+            Add an attachment
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-send a file as message          </DialogDescription>
+            send a file as message          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

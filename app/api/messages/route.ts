@@ -7,7 +7,6 @@ import { db } from "@/lib/db";
 const MESSAGES_BATCH = 30;
 console.log("Here is the batch mesaage /api/message/route.ts");
 
-
 export async function GET(req: Request) {
   try {
     const profile = await currentProfile();
@@ -28,19 +27,19 @@ export async function GET(req: Request) {
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
-          id: cursor
+          id: cursor,
         },
         where: {
-          channelId
+          channelId,
         },
         include: {
           member: {
             include: {
-              profile: true
-            }
-          }
+              profile: true,
+            },
+          },
         },
-        orderBy: { createdAt: "desc" }
+        orderBy: { createdAt: "desc" },
       });
     } else {
       messages = await db.message.findMany({
@@ -49,11 +48,11 @@ export async function GET(req: Request) {
         include: {
           member: {
             include: {
-              profile: true
-            }
-          }
+              profile: true,
+            },
+          },
         },
-        orderBy: { createdAt: "desc" }
+        orderBy: { createdAt: "desc" },
       });
     }
 
@@ -66,6 +65,60 @@ export async function GET(req: Request) {
     return NextResponse.json({ items: messages, nextCursor });
   } catch (error) {
     console.error("[MESSAGES_GET]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const profile = await currentProfile();
+    const { content, channelId, fileUrl } = await req.json();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    if (!channelId) {
+      return new NextResponse("Channel ID Missing", { status: 400 });
+    }
+
+    const member = await db.member.findFirst({
+      where: {
+        profileId: profile.id,
+        server: {
+          channels: {
+            some: {
+              id: channelId,
+            },
+          },
+        },
+      },
+    });
+
+    if (!member) {
+      return new NextResponse("Member not found", { status: 404 });
+    }
+
+    const message = await db.message.create({
+      data: {
+        content: fileUrl ? "" : content || "",
+        channelId,
+        memberId: member.id,
+        fileUrl: fileUrl || null,
+      },
+
+      include: {
+        member: {
+          include: {
+            profile: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(message);
+  } catch (error) {
+    console.error("[MESSAGES_POST]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

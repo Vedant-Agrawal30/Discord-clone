@@ -117,9 +117,10 @@ export const FileUpload = ({
     ?.split(".")
     ?.pop()
     ?.toLowerCase();
-
+  const isServerImage = endpoint === "serverImage";
   const isImage =
-    fileExtension && IMAGE_EXTENSIONS.includes(fileExtension);
+    isServerImage ||
+    (fileExtension && IMAGE_EXTENSIONS.includes(fileExtension));
 
   /* IMAGE PREVIEW */
   if (value && isImage) {

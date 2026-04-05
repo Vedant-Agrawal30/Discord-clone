@@ -14,8 +14,8 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Team chat Application",
-  description: "My Next.js App with Open Sans",
+  title: "CardiaC",
+  description: "Premium Discord Style UI",
 };
 
 export default function RootLayout({
@@ -24,29 +24,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={cn(
-            openSans.className,
-            "bg-white dark:bg-[#313338]"
-          )}
-        >
+    <html lang="en" suppressHydrationWarning>
+   <body
+  className={cn(
+    openSans.className,
+    "antialiased"
+  )}
+>
+        <ClerkProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem={false}
-            storageKey="discord-theme"
           >
             <SocketProvider>
-            <ModalProvider />
-            <QueryProvider>
-            {children}
-            </QueryProvider>
+              <ModalProvider />
+              <QueryProvider>{children}</QueryProvider>
             </SocketProvider>
           </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
