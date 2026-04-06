@@ -430,7 +430,7 @@ export default function LandingPage() {
 
               <div className="relative rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] shadow-2xl overflow-hidden">
                 {/* 3D Spline Embed (You'll replace this with actual Spline scene) */}
-<div className="aspect-square w-full rounded-[2rem] bg-black relative overflow-hidden">
+                <div className="aspect-square w-full rounded-[2rem] bg-black relative overflow-hidden">
                   {/* Placeholder for Spline 3D - Replace with actual Spline iframe or React component */}
                   <Image
                     src="/animat.png"

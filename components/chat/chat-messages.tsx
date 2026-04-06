@@ -133,7 +133,7 @@ export function ChatMessages({
         {data?.pages?.map((group, index) => (
           <Fragment key={index}>
             {group.items.map(
-              (message: MessageWithMemberWithProfile, i: number) => {
+              (message: MessageWithMemberWithProfile, i:number) => {
 
                 const previousMessage = group.items[i + 1];
 

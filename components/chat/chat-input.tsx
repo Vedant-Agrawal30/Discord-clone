@@ -47,28 +47,27 @@ export function ChatInput({ apiUrl, query, name, type }: ChatInputProps) {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      if (!values.content && !fileUrl) return; // nothing to send
+const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  try {
+    if (!values.content && !fileUrl) return; // nothing to send
 
-      const url = qs.stringifyUrl({
-        url: apiUrl,
-        query,
-      });
+    const url = qs.stringifyUrl({
+      url: apiUrl,
+      query,
+    });
 
-      await axios.post(url, {
-        content: fileUrl ? "" : values.content,
-        fileUrl: fileUrl || null,
-        fileType: fileUrl?.includes("pdf") ? "pdf" : "image", // 👈 ADD THIS
-      });
+    await axios.post(url, {
+      content: fileUrl ? "" : values.content,
+      fileUrl: fileUrl || null,
+    });
 
-      form.reset();
-      setFileUrl(null);
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    form.reset();
+    setFileUrl(null);
+    router.refresh();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 
   return (
@@ -113,8 +112,9 @@ export function ChatInput({ apiUrl, query, name, type }: ChatInputProps) {
                       variant="ghost"
                       disabled={isLoading}
                       {...field}
-                      placeholder={`Message ${type === "conversation" ? name : "#" + name
-                        }`}
+                      placeholder={`Message ${
+                        type === "conversation" ? name : "#" + name
+                      }`}
                       className="flex-1 text-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
                     />
 
